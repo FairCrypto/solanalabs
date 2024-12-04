@@ -8,9 +8,6 @@ use {
         native_token::LAMPORTS_PER_SOL,
     },
 };
-use solana_accounts_db::inline_spl_token;
-use solana_sdk::account::Account;
-use solana_sdk::native_token::sol_to_lamports;
 
 // 9 month schedule is 100% after 9 months
 const UNLOCKS_ALL_AT_9_MONTHS: UnlockInfo = UnlockInfo {
@@ -235,18 +232,6 @@ fn add_stakes(
 
 /// Add acounts that should be present in genesis; skip for development clusters
 pub fn add_genesis_accounts(genesis_config: &mut GenesisConfig, mut issued_lamports: u64) {
-    // Add the native mint account
-    genesis_config.add_account(
-        inline_spl_token::native_mint::id(),
-        solana_sdk::account::AccountSharedData::from(Account {
-            owner: inline_spl_token::id(),
-            data: inline_spl_token::native_mint::ACCOUNT_DATA.to_vec(),
-            lamports: sol_to_lamports(1.0),
-            executable: false,
-            rent_epoch: 1,
-        })
-    );
-
     if genesis_config.cluster_type == ClusterType::Development {
         return;
     }
