@@ -91,6 +91,7 @@ use {
         blockhash_queue::BlockhashQueue,
         epoch_accounts_hash::EpochAccountsHash,
         nonce_info::{NonceInfo, NoncePartial},
+        inline_spl_token,
         partitioned_rewards::PartitionedEpochRewardsConfig,
         rent_collector::{CollectedInfo, RentCollector, RENT_EXEMPT_RENT_EPOCH},
         rent_debits::RentDebits,
@@ -155,6 +156,7 @@ use {
         message::{AccountKeys, SanitizedMessage},
         native_loader,
         native_token::LAMPORTS_PER_SOL,
+        native_token::sol_to_lamports,
         nonce::{self, state::DurableNonce, NONCED_TX_MARKER_IX_INDEX},
         nonce_account,
         packet::PACKET_DATA_SIZE,
@@ -7899,6 +7901,19 @@ impl Bank {
 
         if new_feature_activations.contains(&feature_set::update_hashes_per_tick6::id()) {
             self.apply_updated_hashes_per_tick(UPDATED_HASHES_PER_TICK6);
+        }
+
+        if new_feature_activations.contains(&feature_set::enable_native_mint_wrap_account::id()) {
+            self.store_account_and_update_capitalization(
+                &inline_spl_token::native_mint::id(),
+                &solana_sdk::account::AccountSharedData::from(Account {
+                    owner: inline_spl_token::id(),
+                    data: inline_spl_token::native_mint::ACCOUNT_DATA.to_vec(),
+                    lamports: sol_to_lamports(1.0),
+                    executable: false,
+                    rent_epoch: 1,
+                }),
+            );
         }
     }
 
