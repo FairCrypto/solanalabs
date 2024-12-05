@@ -590,7 +590,7 @@ fn main() -> Result<(), Box<dyn error::Error>> {
                 lamports: sol_to_lamports(1.0),
                 executable: false,
                 rent_epoch: 1,
-            })
+            }),
         );
     }
 
