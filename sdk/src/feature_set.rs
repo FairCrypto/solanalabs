@@ -784,6 +784,10 @@ pub mod enable_native_mint_wrap_account {
     solana_sdk::declare_id!("BeCY6VL4CKQR2QUwe9w3iRtNMN91FMW1sXbRzwfc3WYc");
 }
 
+pub mod deactivate_canceled_partitioned_epoch_reward {
+    solana_sdk::declare_id!("3sioPumDoSRarqzp442ETGUvTCLADgU9eFzKJj375B23");
+}
+
 lazy_static! {
     /// Map of feature identifiers to user-visible description
     pub static ref FEATURE_NAMES: HashMap<Pubkey, &'static str> = [
@@ -975,6 +979,7 @@ lazy_static! {
         (remove_rounding_in_fee_calculation::id(), "Removing unwanted rounding in fee calculation #34982"),
         (deprecate_unused_legacy_vote_plumbing::id(), "Deprecate unused legacy vote tx plumbing"),
         (enable_native_mint_wrap_account::id(), "enable the native mint wrap account"),
+        (deactivate_canceled_partitioned_epoch_reward::id(), "deactivate canceled partitioned epoch reward"),
         /*************** ADD NEW FEATURES HERE ***************/
     ]
     .iter()
