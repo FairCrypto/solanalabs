@@ -109,7 +109,6 @@ use {
         vote_state::{
             self, BlockTimestamp, Vote, VoteInit, VoteState, VoteStateVersions, MAX_LOCKOUT_HISTORY,
         },
-        vote_transaction,
     },
     std::{
         collections::{HashMap, HashSet},
